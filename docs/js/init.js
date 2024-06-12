@@ -252,5 +252,32 @@
     $('.fixed-action-btn.toolbar').floatingActionButton({
       toolbarEnabled: true
     });
+
+    // Sponsor shuffle
+    $.fn.randomizeChildrenOrder = function() {
+      this.each(function(){
+          let childrenArray = $(this).children().not('.patreon-footer-ad-new').toArray();
+          let shuffledChildrenArray = fisherYatesShuffle(childrenArray);
+          console.log(childrenArray, shuffledChildrenArray)
+          $(shuffledChildrenArray).detach().appendTo(this);
+      });
+
+      return this;
+
+      // https://stackoverflow.com/a/2450976/665825
+      function fisherYatesShuffle(array){
+          let currentIndex = array.length, temporaryValue, randomIndex;
+          while (currentIndex !== 0) {
+              randomIndex = Math.floor(Math.random() * currentIndex);
+              currentIndex -= 1;
+              temporaryValue = array[currentIndex];
+              array[currentIndex] = array[randomIndex];
+              array[randomIndex] = temporaryValue;
+          }
+          return array;
+      }
+    }
+    $('.docs-footer .patreon-footer-ads').randomizeChildrenOrder();
+
   }); // end of document ready
 })(jQuery); // end of jQuery name space
